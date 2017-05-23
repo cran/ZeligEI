@@ -6,6 +6,11 @@
 \alias{zeirxc}
 \title{Multinomial Dirichlet model for Ecological Inference in RxC tables}
 \description{
-Vignette: \url{http://docs.zeligproject.org/en/latest/zeligei-eirxc.html}
+Vignette: \url{http://docs.zeligproject.org/articles/zeligei_eirxc.html}
 }
+\section{Methods}{
+
+\describe{
+\item{\code{getcoef()}}{Get estimated model coefficients}
+}}
 

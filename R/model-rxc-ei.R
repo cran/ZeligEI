@@ -1,6 +1,6 @@
 #' Multinomial Dirichlet model for Ecological Inference in RxC tables
 #'
-#' Vignette: \url{http://docs.zeligproject.org/en/latest/zeligei-eirxc.html}
+#' Vignette: \url{http://docs.zeligproject.org/articles/zeligei_eirxc.html}
 #' @import methods
 #' @export Zelig-eirxc
 #' @exportClass Zelig-eirxc
@@ -18,7 +18,7 @@ zeirxc$methods(
     .self$fn <- quote(eiPack::ei.MD.bayes)
     .self$packageauthors <- "Michael Kellerman, Olivia Lau"
     .self$wrapper <- "eirxc"
-    .self$vignette.url <- "http://docs.zeligproject.org/en/latest/zeligei-eirxc.html"
+    .self$vignette.url <- "http://docs.zeligproject.org/articles/zeligei_eirxc.html"
     ref1<-bibentry(
             bibtype="Article",
             title = "Bayesian and Frequentist Inference for Ecological Inference: The R x C case.",
@@ -37,23 +37,25 @@ zeirxc$methods(
 )
 
 zeirxc$methods(
-  zelig = function(formula, data, N = NULL, ..., weights = NULL, by = NULL, bootstrap = FALSE) {
-    if(is.null(N)){
-        stop("The argument N needs to be set to the name of the variable giving the total for each unit, or a vector of counts.")
-        
-        # Put in automated fix if data is integer.
+  zelig = function(formula, data, N = NULL, ..., weights = NULL, by = NULL, bootstrap = FALSE, na.action="na.omit") {
+    na.action <- checkZeligEIna.action(na.action)
+
+    if(!identical(bootstrap,FALSE)){
+      stop("Error: The bootstrap is not available for Markov chain Monte Carlo (MCMC) models.")
     }
     
+    cnvt <- convertEIformula2(formula=formula, data=data, N=N, na.action=na.action, rxc=TRUE)
+    localformula <- cnvt$formula
+    localdata <- cnvt$data
+
     .self$zelig.call <- match.call(expand.dots = TRUE)
-    
     .self$model.call <- match.call(expand.dots = TRUE)
+    
     .self$model.call$N <- NULL
-    if(is.numeric(N)){
-        .self$model.call$total <- "ZeligN"
-    }else{
-        .self$model.call$total <- N
-    }
-    callSuper(formula = formula, data = data, N=NULL, ..., weights = weights, by = by, bootstrap = bootstrap)
+    .self$model.call$na.action <- NULL
+    .self$model.call$total <- cnvt$totalName
+
+    callSuper(formula = localformula, data = localdata, N=NULL, ..., weights = weights, by = by, bootstrap = bootstrap)
   }
 )
 

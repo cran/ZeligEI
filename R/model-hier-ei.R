@@ -1,6 +1,6 @@
 #' Wakefield's Hierarchical Ecological Inference Model
 #'
-#' Vignette: \url{http://docs.zeligproject.org/en/latest/zeligei-eihier.html}
+#' Vignette: \url{http://docs.zeligproject.org/articles/zeligei_eihier.html}
 #' @import methods
 #' @export Zelig-eihier
 #' @exportClass Zelig-eihier
@@ -19,7 +19,7 @@ zeihier$methods(
     .self$fn <- quote(MCMCpack::MCMChierEI)
     .self$packageauthors <- "Andrew D. Martin, Kevin M. Quinn, Jong Hee Park"
     .self$wrapper <- "eihier"
-    .self$vignette.url <- "http://docs.zeligproject.org/en/latest/zeligei-eihier.html"
+    .self$vignette.url <- "http://docs.zeligproject.org/articles/zeligei_eihier.html"
     ref1<-bibentry(
             bibtype="Article",
             title = "Ecological Inference for 2 x 2 Tables.",
@@ -34,16 +34,22 @@ zeihier$methods(
 )
 
 zeihier$methods(
-  zelig = function(formula, data, N=NULL, ..., weights = NULL, by = NULL, bootstrap = FALSE) {
+  zelig = function(formula, data, N=NULL, ..., weights = NULL, by = NULL, bootstrap = FALSE, na.action="na.omit") {
+    na.action <- checkZeligEIna.action(na.action)
+
     if(!identical(bootstrap,FALSE)){
       stop("Error: The bootstrap is not available for Markov chain Monte Carlo (MCMC) models.")
     }
     if(!is.null(weights)){
       stop("Error: Weights are not implemented for the Wakefield Hierarchical EI model.  Try the eiml model if weights are required.")
     }
+    if(!is.null(by)){
+      stop("Error: The `by' argument is not implemented for the Wakefield Hierarchical EI model.  Try the eiml model if this is required,
+        or subset the data and run multiple models.")
+    }
 
-    cnvt <- convertEIformula(formula=formula, N=N, data=data)
-
+    cnvt <- convertEIformula(formula=formula, N=N, data=data, na.action=na.action)
+    
     .self$zelig.call <- match.call(expand.dots = TRUE)
     .self$model.call <- match.call(expand.dots = TRUE)
 
@@ -55,8 +61,10 @@ zeihier$methods(
     .self$model.call$N <- NULL
     .self$model.call$formula <- NULL
     .self$model.call$data <- NULL
+    .self$model.call$na.action <- NULL
 
-    callSuper(formula = formula, data = data, ..., weights = NULL, by = by, bootstrap = FALSE)
+    # Note, formula and data pass through the Zelig internals, but are ignored by the wrapped model
+    callSuper(formula = formula, data = data, ..., weights = NULL, by = NULL, bootstrap = FALSE)
   }
 )
 

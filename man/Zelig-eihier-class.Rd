@@ -6,6 +6,11 @@
 \alias{zeihier}
 \title{Wakefield's Hierarchical Ecological Inference Model}
 \description{
-Vignette: \url{http://docs.zeligproject.org/en/latest/zeligei-eihier.html}
+Vignette: \url{http://docs.zeligproject.org/articles/zeligei_eihier.html}
 }
+\section{Methods}{
+
+\describe{
+\item{\code{getcoef()}}{Get estimated model coefficients}
+}}
 

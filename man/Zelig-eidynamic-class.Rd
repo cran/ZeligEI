@@ -6,6 +6,11 @@
 \alias{zeidynamic}
 \title{Quinn's Dynamic Ecological Inference Model}
 \description{
-Vignette: \url{http://docs.zeligproject.org/en/latest/zeligei-eidynamic.html}
+Vignette: \url{http://docs.zeligproject.org/articles/zeligei_eidynamic.html}
 }
+\section{Methods}{
+
+\describe{
+\item{\code{getcoef()}}{Get estimated model coefficients}
+}}
 

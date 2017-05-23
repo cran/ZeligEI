@@ -1,6 +1,6 @@
 #' Ecological Inference Model by Maximum Likelihood
 #'
-#' Vignette: \url{http://docs.zeligproject.org/en/latest/zeligei-eiml.html}
+#' Vignette: \url{http://docs.zeligproject.org/articles/zeligei_eiml.html}
 #' @import methods
 #' @export Zelig-eiml
 #' @exportClass Zelig-eiml
@@ -18,7 +18,7 @@ zeiml$methods(
     .self$fn <- quote(ei::ei)
     .self$packageauthors <- "Gary King, Molly Roberts"
     .self$wrapper <- "eiml"
-    .self$vignette.url <- "http://docs.zeligproject.org/en/latest/zeligei-eiml.html"
+    .self$vignette.url <- "http://docs.zeligproject.org/articles/zeligei_eiml.html"
     ref1<-bibentry(
             bibtype="Book",
             title = "A Solution to the Ecological Inference Problem: Reconstructing Individual Behavior from Aggregate Data",
@@ -33,23 +33,27 @@ zeiml$methods(
 )
 
 zeiml$methods(
-  zelig = function(formula, data, N = NULL, ..., weights = NULL, by = NULL, bootstrap = FALSE) {
-    if(is.null(N)){
-      stop("The argument N needs to be set to the name of the variable giving the total for each unit, or a vector of counts.")
+  zelig = function(formula, data, N = NULL, ..., weights = NULL, by = NULL, bootstrap = FALSE, na.action="na.omit") {
+    na.action <- checkZeligEIna.action(na.action)
 
-      # Put in automated fix if data is integer.
-    }
+    #if(is.null(N)){
+    #  stop("The argument N needs to be set to the name of the variable giving the total for each unit, or a vector of counts.")
+    #}
+
+    cnvt <- convertEIformula2(formula=formula, data=data, N=N, na.action=na.action)
+    localformula <- cnvt$formula
+    localdata <- cnvt$data
 
     .self$zelig.call <- match.call(expand.dots = TRUE)
 
     .self$model.call <- match.call(expand.dots = TRUE)
+    .self$model.call$formula <- localformula
     .self$model.call$N <- NULL
-    if(is.numeric(N)){
-      .self$model.call$total <- "ZeligN"
-    }else{
-      .self$model.call$total <- N
-    }
-    callSuper(formula = formula, data = data, N=N, ..., weights = weights, by = by, bootstrap = bootstrap)
+    .self$model.call$na.action <- NULL
+    .self$model.call$total <- cnvt$totalName
+
+    # Check if N needs to be replaced in this model, or everything can rely on .self$model.call$total
+    callSuper(formula = localformula, data = localdata, N=N, ..., weights = weights, by = by, bootstrap = bootstrap)
   }
 )
 
@@ -72,8 +76,6 @@ zeiml$methods(
     return(list(ev = ev))
   }
 )
-
-
 
 # Overwrite diagnostic test that are inherited from model-ei
 zeiml$methods(
