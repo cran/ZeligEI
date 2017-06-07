@@ -10,8 +10,8 @@ Description: Add-on package for Zelig 5. Enables the use of a variety of
     ecological inference models.
 URL: https://cran.r-project.org/package=ZeligEI
 BugReports: https://github.com/IQSS/ZeligEI/issues
-Version: 0.1-1
-Date: 2017-05-04
+Version: 0.1-2
+Date: 2017-06-05
 Depends: eiPack
 Imports: dplyr, ei, Formula, jsonlite, MASS, MCMCpack, methods, Zelig
         (>= 5.1-0),
@@ -20,9 +20,9 @@ Collate: 'create-json.R' 'model-ei.R' 'model-rxc-ei.R'
         'model-dynamic-ei.R' 'model-ml-ei.R' 'model-hier-ei.R'
 RoxygenNote: 6.0.1
 NeedsCompilation: no
-Packaged: 2017-05-22 17:13:45 UTC; christophergandrud
+Packaged: 2017-06-07 15:13:56 UTC; cgandrud
 Author: Christopher Gandrud [cre],
   James Honaker [aut]
 Maintainer: Christopher Gandrud <zelig.zee@gmail.com>
 Repository: CRAN
-Date/Publication: 2017-05-23 03:54:58 UTC
+Date/Publication: 2017-06-07 22:44:11 UTC

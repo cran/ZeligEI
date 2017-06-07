@@ -1,9 +1,9 @@
-6e5ecc52d6760a15eae6bcc6ec2c38dd *DESCRIPTION
+dcb55470e61c613e3dfebd1f78f772b1 *DESCRIPTION
 1172e69eab003d8a41100f2f7cf43102 *NAMESPACE
-1eb93d77b88d523c77ac0e6a22d459e7 *NEWS.md
+43b8260fdd8d88f9db7b1098abd2f683 *NEWS.md
 75d81a4ec6175a37a8d750e50593724f *R/create-json.R
 d6841930c5478ec7c6dea6b06728864d *R/model-dynamic-ei.R
-47fc788b395c4a8a68324673343c46bd *R/model-ei.R
+40759751d94d99f780d5bf96c15a178f *R/model-ei.R
 fd9624f33b66baac967e46ead71cf35b *R/model-hier-ei.R
 bfb4a5b4983cc9b17d2dc469a3ba1edf *R/model-ml-ei.R
 270382e17e41e92b7d70e33af6d24295 *R/model-rxc-ei.R
@@ -21,3 +21,4 @@ f0b7952ede77d5db6979aafe39313d7f *man/convertEIformula2.Rd
 1de5266a10930f985005efad0023c268 *tests/testthat/test-eihier.R
 590bed3a4fe43285d99d46dfb3957cd6 *tests/testthat/test-eiml.R
 ef9c24058d6e645c14dd03da659089b2 *tests/testthat/test-eirxc.R
+ec15fa9cbe90c6ee3a343ec73ff3046b *tests/testthat/test-zelig-core.R
